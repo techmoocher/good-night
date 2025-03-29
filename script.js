@@ -175,21 +175,91 @@ function addIntermittentBlinkingStars() {
 
 function typeMessage() {
     const message = document.querySelector('.message');
-    const text = message.textContent;
+    const originalText = message.textContent;
+    // Add variations of the message for the loop
+    const messages = [
+        "It's time to rest, cutieee! 😘",
+        "Sweet dreams, pookie! 💤",
+        "Good night, lil star! 🌙",
+        "Sleep tight, darling! 😴",
+        "May your dreams be magical! ✨",
+        "Close your eyes and dream big! 🌌",
+        "Rest well, lovely! 💖",
+        "Drift into dreamland, sweetie! 🌜",
+        "Time to recharge, gorgeous! 🔋",
+        "Good night, sunshine! ☀️",
+        "Dream sweet, my princess! 👑",
+    ];
+    
+    // Clear the original text
     message.textContent = '';
-    message.style.display = 'block';
     
+    // Create cursor element
+    const cursor = document.createElement('span');
+    cursor.className = 'cursor';
+    message.appendChild(cursor);
+    
+    // Track used messages to avoid immediate repetition
+    const usedIndices = new Set();
+    let currentMessageIndex = Math.floor(Math.random() * messages.length);
+    let isTyping = true;
     let charIndex = 0;
-    const typingSpeed = 50; // milliseconds per character
+    let currentText = messages[currentMessageIndex];
+    usedIndices.add(currentMessageIndex);
     
-    const typeChar = () => {
-        if (charIndex < text.length) {
-            message.textContent += text.charAt(charIndex);
-            charIndex++;
-            setTimeout(typeChar, typingSpeed);
+    const typeLoop = () => {
+        // Check if we're typing or deleting
+        if (isTyping) {
+            // Type next character
+            if (charIndex < currentText.length) {
+                // Insert text node before cursor
+                const textNode = document.createTextNode(currentText.charAt(charIndex));
+                message.insertBefore(textNode, cursor);
+                charIndex++;
+                setTimeout(typeLoop, 70 + Math.random() * 50);
+            } else {
+                isTyping = false;
+                setTimeout(typeLoop, 2000); // Wait 2 seconds before backspacing
+            }
+        } else {
+            // Delete characters
+            if (charIndex > 0) {
+                // Remove one character (the node before cursor)
+                message.removeChild(cursor.previousSibling);
+                charIndex--;
+                setTimeout(typeLoop, 40); // Backspacing is faster
+            } else {
+                // Move to next random message when done deleting
+                isTyping = true;
+                
+                // Select a random message that hasn't been used recently
+                let newIndex;
+                do {
+                    newIndex = Math.floor(Math.random() * messages.length);
+                } while (
+                    // Avoid repeating the last message
+                    newIndex === currentMessageIndex || 
+                    // If we've used more than half the messages, allow reusing older ones
+                    (usedIndices.size < messages.length / 2 && usedIndices.has(newIndex))
+                );
+                
+                currentMessageIndex = newIndex;
+                
+                // Track this message as used
+                usedIndices.add(currentMessageIndex);
+                
+                // If we've used too many messages, start forgetting older ones
+                if (usedIndices.size > messages.length / 2) {
+                    usedIndices.clear();
+                    usedIndices.add(currentMessageIndex);
+                }
+                
+                currentText = messages[currentMessageIndex];
+                setTimeout(typeLoop, 800); // Wait before typing next message
+            }
         }
     };
     
-    // Start typing after a short delay
-    setTimeout(typeChar, 1000);
+    // Start the typing animation after a short delay
+    setTimeout(typeLoop, 1000);
 }
