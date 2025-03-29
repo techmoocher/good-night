@@ -225,7 +225,7 @@ function typeMessage() {
             } else {
                 // Pause at the end of typing before starting to delete
                 isTyping = false;
-                setTimeout(typeLoop, 1800); // Slightly shorter pause
+                setTimeout(typeLoop, 2000); // Slightly shorter pause
             }
         } else {
             // Delete characters
@@ -237,7 +237,6 @@ function typeMessage() {
             } else {
                 // Move to next random message when done deleting
                 isTyping = true;
-                
                 // Select a random message that hasn't been used recently
                 let newIndex;
                 do {
@@ -261,11 +260,11 @@ function typeMessage() {
                 }
                 
                 currentText = messages[currentMessageIndex];
-                setTimeout(typeLoop, 1000); // Shorter wait before typing next message
+                setTimeout(typeLoop, 1500); // Shorter wait before typing next message
             }
         }
     };
     
     // Start the typing animation after a shorter delay
-    setTimeout(typeLoop, 700);
+    setTimeout(typeLoop, 950);
 }
