@@ -187,11 +187,29 @@ h1 {
 
 .message {
     font-family: 'Comfortaa', sans-serif;
-    font-size: 1.2rem;
+    font-size: 1.25rem;
     line-height: 1.7;
     margin-bottom: 1.8rem;
     color: #e6e0ff;
     padding: 0 10px;
+    min-height: 2.5rem; /* Ensure consistent height during typing */
+    position: relative; /* For proper cursor positioning */
+}
+
+/* Add styles for the blinking cursor */
+.cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1.2em;
+    background-color: #e6e0ff;
+    margin-left: 2px;
+    vertical-align: middle;
+    animation: blink-cursor 0.8s infinite;
+}
+
+@keyframes blink-cursor {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
 }
 
 .goodnight {
