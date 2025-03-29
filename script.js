@@ -225,7 +225,7 @@ function typeMessage() {
             } else {
                 // Pause at the end of typing before starting to delete
                 isTyping = false;
-                setTimeout(typeLoop, 2000); // Slightly shorter pause
+                setTimeout(typeLoop, 2000);
             }
         } else {
             // Delete characters
@@ -233,10 +233,11 @@ function typeMessage() {
                 // Remove one character (the node before cursor)
                 container.removeChild(cursor.previousSibling);
                 charIndex--;
-                setTimeout(typeLoop, 25); // Faster backspacing
+                setTimeout(typeLoop, 25);
             } else {
                 // Move to next random message when done deleting
                 isTyping = true;
+                
                 // Select a random message that hasn't been used recently
                 let newIndex;
                 do {
@@ -244,7 +245,6 @@ function typeMessage() {
                 } while (
                     // Avoid repeating the last message
                     newIndex === currentMessageIndex || 
-                    // If we've used more than half the messages, allow reusing older ones
                     (usedIndices.size < messages.length / 2 && usedIndices.has(newIndex))
                 );
                 
@@ -260,7 +260,7 @@ function typeMessage() {
                 }
                 
                 currentText = messages[currentMessageIndex];
-                setTimeout(typeLoop, 1500); // Shorter wait before typing next message
+                setTimeout(typeLoop, 1500);
             }
         }
     };
