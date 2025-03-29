@@ -180,7 +180,7 @@ function typeMessage() {
     const messages = [
         "It's time to rest, cutieee! 😘",
         "Sweet dreams, pookie! 💤",
-        "Good night, lil star! 🌙",
+        "Good night, lil star! 🌟",
         "Sleep tight, darling! 😴",
         "May your dreams be magical! ✨",
         "Close your eyes and dream big! 🌌",
@@ -191,13 +191,18 @@ function typeMessage() {
         "Dream sweet, my princess! 👑",
     ];
     
-    // Clear the original text
+    // Create a container div to maintain height
+    const container = document.createElement('div');
+    container.className = 'typing-container';
+    
+    // Clear the original text and add container
     message.textContent = '';
+    message.appendChild(container);
     
     // Create cursor element
     const cursor = document.createElement('span');
     cursor.className = 'cursor';
-    message.appendChild(cursor);
+    container.appendChild(cursor);
     
     // Track used messages to avoid immediate repetition
     const usedIndices = new Set();
@@ -214,20 +219,21 @@ function typeMessage() {
             if (charIndex < currentText.length) {
                 // Insert text node before cursor
                 const textNode = document.createTextNode(currentText.charAt(charIndex));
-                message.insertBefore(textNode, cursor);
+                container.insertBefore(textNode, cursor);
                 charIndex++;
-                setTimeout(typeLoop, 70 + Math.random() * 50);
+                setTimeout(typeLoop, 40 + Math.random() * 30); // Faster typing speed
             } else {
+                // Pause at the end of typing before starting to delete
                 isTyping = false;
-                setTimeout(typeLoop, 2000); // Wait 2 seconds before backspacing
+                setTimeout(typeLoop, 1800); // Slightly shorter pause
             }
         } else {
             // Delete characters
             if (charIndex > 0) {
                 // Remove one character (the node before cursor)
-                message.removeChild(cursor.previousSibling);
+                container.removeChild(cursor.previousSibling);
                 charIndex--;
-                setTimeout(typeLoop, 40); // Backspacing is faster
+                setTimeout(typeLoop, 25); // Faster backspacing
             } else {
                 // Move to next random message when done deleting
                 isTyping = true;
@@ -255,11 +261,11 @@ function typeMessage() {
                 }
                 
                 currentText = messages[currentMessageIndex];
-                setTimeout(typeLoop, 800); // Wait before typing next message
+                setTimeout(typeLoop, 1000); // Shorter wait before typing next message
             }
         }
     };
     
-    // Start the typing animation after a short delay
-    setTimeout(typeLoop, 1000);
+    // Start the typing animation after a shorter delay
+    setTimeout(typeLoop, 700);
 }
