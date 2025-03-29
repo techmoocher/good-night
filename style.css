@@ -192,19 +192,30 @@ h1 {
     margin-bottom: 1.8rem;
     color: #e6e0ff;
     padding: 0 10px;
-    min-height: 2.5rem; /* Ensure consistent height during typing */
-    position: relative; /* For proper cursor positioning */
+    min-height: 4rem;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* Add styles for the blinking cursor */
+.typing-container {
+    display: inline-block;
+    position: relative;
+    min-height: 1.7em;
+}
+
+/* Enhanced blinking cursor styles */
 .cursor {
     display: inline-block;
     width: 2px;
-    height: 1.2em;
+    height: 1.4em;
     background-color: #e6e0ff;
     margin-left: 2px;
-    vertical-align: middle;
+    vertical-align: text-bottom;
     animation: blink-cursor 0.8s infinite;
+    position: relative;
+    top: 0.1em;
 }
 
 @keyframes blink-cursor {
@@ -313,6 +324,7 @@ h1 {
     
     .message {
         font-size: 1rem;
+        min-height: 3.5rem;
     }
     
     .goodnight {
